@@ -20,7 +20,7 @@ namespace WorkNotes.Models
 		public string Notes { get; set; }
 
 		public virtual Application Application { get; set; }
-		public virtual Contact Contact { get; set; }
+		public virtual Person Contact { get; set; }
 		public virtual Job Job { get; set; }
 	}
 }
