@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WorkNotes.Models
 {
-	public class Contact
+	public class Person
 	{
 		public int ID { get; set; }
 		public int CompanyID { get; set; }

@@ -17,6 +17,6 @@ namespace WorkNotes.Models
 		public string PostingSite { get; set; }
 
 		public virtual Company Company { get; set; }
-		public virtual Contact Recruiter { get; set; }
+		public virtual Person Recruiter { get; set; }
 	}
 }
