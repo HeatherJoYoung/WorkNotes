@@ -13,8 +13,8 @@ namespace WorkNotes.Models
 	{
 		public int ID { get; set; }
 		public int PersonID { get; set; }
-		public int JobID { get; set; }
-		public int ApplicationID { get; set; }
+		public int? JobID { get; set; }
+		public int? ApplicationID { get; set; }
 		public DateTime Date { get; set; }
 		public ActivityType Type { get; set; }
 		public string Notes { get; set; }

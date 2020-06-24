@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WorkNotes.Models.Job>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Company.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recruiter.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qualifications)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostingSite)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Recruiter.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qualifications)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostingDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostingSite)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
