@@ -50,8 +50,8 @@ namespace WorkNotes.DAL
 
 			var activities = new List<Activity>()
 			{
-				new Activity { Date = DateTime.Parse("01/06/2020"), Type = ActivityType.Application, JobID = 1, ApplicationID = 1 },
-				new Activity { Date = DateTime.Parse("02/03/2020"), Type = ActivityType.Application, JobID = 2, ApplicationID = 2 }
+				new Activity { Date = DateTime.Parse("01/06/2020"), Type = ActivityType.Application, PersonID = 1, JobID = 1, ApplicationID = 1 },
+				new Activity { Date = DateTime.Parse("02/03/2020"), Type = ActivityType.Application, PersonID = 2, JobID = 2, ApplicationID = 2 }
 			};
 
 			activities.ForEach(a => context.Activities.Add(a));
