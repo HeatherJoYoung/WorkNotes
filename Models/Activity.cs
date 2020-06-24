@@ -12,7 +12,7 @@ namespace WorkNotes.Models
 	public class Activity
 	{
 		public int ID { get; set; }
-		public int ContactID { get; set; }
+		public int PersonID { get; set; }
 		public int JobID { get; set; }
 		public int ApplicationID { get; set; }
 		public DateTime Date { get; set; }
