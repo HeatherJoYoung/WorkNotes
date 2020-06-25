@@ -10,10 +10,11 @@ namespace WorkNotes.DAL
 	{
 		protected override void Seed(NotesContext context)
 		{
+			var locations = new List<string> { "Seattle", "Denver", "Boulder" };
 			var companies = new List<Company>()
-			{
-				new Company { Name = "Microsoft", Locations = new List<string> { "Seattle", "Boulder" } },
-				new Company { Name = "Amazon", Locations = new List<string> { "Seattle", "Denver", "Boulder" } }
+			{	
+				new Company { Name = "Microsoft", Location = "Seattle" },
+				new Company { Name = "Amazon", Location = "Seattle" }
 			};
 
 			companies.ForEach(c => context.Companies.Add(c));
