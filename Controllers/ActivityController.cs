@@ -14,7 +14,11 @@ namespace WorkNotes.Controllers
         // GET: Activity
         public ActionResult Index()
         {
-            var activities = db.Activities.Include(a => a.Application).Include(a => a.Contact).Include(a => a.Job);
+            var activities = db.Activities
+                .Include(a => a.Application)
+                .Include(a => a.Contact)
+                .Include(a => a.Job)
+                .Include(a => a.Job.Company);
             return View(activities.ToList());
         }
 
@@ -37,7 +41,7 @@ namespace WorkNotes.Controllers
         public ActionResult Create()
         {
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "ID");
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName");
+            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FullName");
             ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle");
             return View();
         }
@@ -57,7 +61,7 @@ namespace WorkNotes.Controllers
             }
 
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "ID", activity.ApplicationID);
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName", activity.PersonID);
+            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FullName", activity.PersonID);
             ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle", activity.JobID);
             return View(activity);
         }
@@ -75,7 +79,7 @@ namespace WorkNotes.Controllers
                 return HttpNotFound();
             }
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "ID", activity.ApplicationID);
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName", activity.PersonID);
+            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FullName", activity.PersonID);
             ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle", activity.JobID);
             return View(activity);
         }
@@ -94,7 +98,7 @@ namespace WorkNotes.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "ID", activity.ApplicationID);
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName", activity.PersonID);
+            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FullName", activity.PersonID);
             ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle", activity.JobID);
             return View(activity);
         }

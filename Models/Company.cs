@@ -9,6 +9,8 @@ namespace WorkNotes.Models
 	public class Company
 	{
 		public int ID { get; set; }
+		[StringLength(100)]
+		[Required]
 		public string Name { get; set; }
 		public string Location { get; set; }
 	}

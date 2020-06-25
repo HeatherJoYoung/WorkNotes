@@ -18,7 +18,7 @@ namespace WorkNotes.Controllers
         // GET: Job
         public ActionResult Index()
         {
-            var jobs = db.Jobs.Include(j => j.Company).Include(j => j.Recruiter);
+            var jobs = db.Jobs.Include(j => j.Company);
             return View(jobs.ToList());
         }
 
@@ -41,7 +41,7 @@ namespace WorkNotes.Controllers
         public ActionResult Create()
         {
             ViewBag.CompanyId = new SelectList(db.Companies, "ID", "Name");
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName");
+            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FullName");
             return View();
         }
 
@@ -60,7 +60,6 @@ namespace WorkNotes.Controllers
             }
 
             ViewBag.CompanyId = new SelectList(db.Companies, "ID", "Name", job.CompanyId);
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName", job.PersonID);
             return View(job);
         }
 
@@ -77,7 +76,6 @@ namespace WorkNotes.Controllers
                 return HttpNotFound();
             }
             ViewBag.CompanyId = new SelectList(db.Companies, "ID", "Name", job.CompanyId);
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName", job.PersonID);
             return View(job);
         }
 
@@ -95,7 +93,6 @@ namespace WorkNotes.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.CompanyId = new SelectList(db.Companies, "ID", "Name", job.CompanyId);
-            ViewBag.PersonID = new SelectList(db.Persons, "ID", "FirstName", job.PersonID);
             return View(job);
         }
 
