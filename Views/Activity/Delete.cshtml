@@ -11,29 +11,6 @@
     <h4>Activity</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Application.ID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Application.ID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contact.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contact.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Job.JobTitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Job.JobTitle)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Date)
@@ -49,6 +26,30 @@
 
         <dd>
             @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            Application ID
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Application.ID)
+        </dd>
+
+        <dt>
+            Recruiter
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job.JobTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.JobTitle)
         </dd>
 
         <dt>

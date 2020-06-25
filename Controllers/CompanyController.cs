@@ -18,7 +18,9 @@ namespace WorkNotes.Controllers
         // GET: Company
         public ActionResult Index()
         {
-            return View(db.Companies.ToList());
+            var companies = db.Companies.ToList();
+            
+            return View(companies);
         }
 
         // GET: Company/Details/5

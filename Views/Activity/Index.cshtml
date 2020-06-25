@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Activities</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,19 +12,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Application.ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contact.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Job.JobTitle)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            Recruiter
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Job.JobTitle)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Notes)
@@ -34,20 +31,17 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Application.ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Contact.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Job.JobTitle)
-        </td>
-        <td>
+         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contact.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Job.JobTitle)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Notes)
