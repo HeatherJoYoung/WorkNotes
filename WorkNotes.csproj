@@ -138,6 +138,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006252213376_InitialCreate.cs" />
+    <Compile Include="Migrations\202006252213376_InitialCreate.designer.cs">
+      <DependentUpon>202006252213376_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006252322576_InitialCreate1.cs" />
+    <Compile Include="Migrations\202006252322576_InitialCreate1.designer.cs">
+      <DependentUpon>202006252322576_InitialCreate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006261354244_DateFormatting.cs" />
+    <Compile Include="Migrations\202006261354244_DateFormatting.designer.cs">
+      <DependentUpon>202006261354244_DateFormatting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\Company.cs" />
@@ -222,6 +235,17 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202006252213376_InitialCreate.resx">
+      <DependentUpon>202006252213376_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006252322576_InitialCreate1.resx">
+      <DependentUpon>202006252322576_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006261354244_DateFormatting.resx">
+      <DependentUpon>202006261354244_DateFormatting.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

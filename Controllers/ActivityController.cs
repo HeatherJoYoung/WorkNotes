@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -12,13 +13,47 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Activity
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
             var activities = db.Activities
                 .Include(a => a.Application)
                 .Include(a => a.Contact)
                 .Include(a => a.Job)
                 .Include(a => a.Job.Company);
+
+            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    activities = activities.OrderByDescending(a => a.ID);
+                    break;
+                case "Date":
+                    activities = activities.OrderBy(a => a.Date);
+                    break;
+                case "date_desc":
+                    activities = activities.OrderByDescending(a => a.Date);
+                    break;
+                case "Type":
+                    activities = activities.OrderBy(a => a.Type);
+                    break;
+                case "type_desc":
+                    activities = activities.OrderByDescending(a => a.Type);
+                    break;
+                case "Company":
+                    activities = activities.OrderBy(a => a.Job.Company.Name);
+                    break;
+                case "company_desc":
+                    activities = activities.OrderByDescending(a => a.Job.Company.Name);
+                    break;
+                default:
+                    activities = activities.OrderBy(a => a.ID);
+                    break;
+            }
+
             return View(activities.ToList());
         }
 
@@ -42,7 +77,7 @@ namespace WorkNotes.Controllers
         {
             ViewBag.ApplicationID = new SelectList(db.Applications, "ID", "ID");
             ViewBag.PersonID = new SelectList(db.Persons, "ID", "FullName");
-            ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle");
+            ViewBag.JobID = new SelectList(db.Jobs, "ID", "ID");
             return View();
         }
 

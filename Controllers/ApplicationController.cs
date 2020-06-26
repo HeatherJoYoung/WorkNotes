@@ -16,9 +16,36 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Application
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
             var applications = db.Applications.Include(a => a.Job);
+
+            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    applications = applications.OrderByDescending(a => a.ID);
+                    break;
+                case "Company":
+                    applications = applications.OrderBy(a => a.Job.Company.Name);
+                    break;
+                case "company_desc":
+                    applications = applications.OrderByDescending(a => a.Job.Company.Name);
+                    break;
+                case "Date":
+                    applications = applications.OrderBy(a => a.Date);
+                    break;
+                case "date_desc":
+                    applications = applications.OrderByDescending(a => a.Date);
+                    break;
+                default:
+                    applications = applications.OrderBy(a => a.ID);
+                    break;
+            }
+
             return View(applications.ToList());
         }
 
@@ -40,7 +67,7 @@ namespace WorkNotes.Controllers
         // GET: Application/Create
         public ActionResult Create()
         {
-            ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle");
+            ViewBag.JobID = new SelectList(db.Jobs, "ID", "ID");
             return View();
         }
 
