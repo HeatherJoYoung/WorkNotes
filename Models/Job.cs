@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -23,6 +24,8 @@ namespace WorkNotes.Models
 
 		[Display(Name = "Date Posted")]
 		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:MM/dd/yy}", ApplyFormatInEditMode = true)]
+		[Column(TypeName = "date")]
 		public DateTime PostingDate { get; set; }
 
 		[StringLength(40)]

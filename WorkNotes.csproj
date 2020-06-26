@@ -53,6 +53,12 @@
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -138,6 +144,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006252213376_InitialCreate.cs" />
+    <Compile Include="Migrations\202006252213376_InitialCreate.designer.cs">
+      <DependentUpon>202006252213376_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006252322576_InitialCreate1.cs" />
+    <Compile Include="Migrations\202006252322576_InitialCreate1.designer.cs">
+      <DependentUpon>202006252322576_InitialCreate1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006261354244_DateFormatting.cs" />
+    <Compile Include="Migrations\202006261354244_DateFormatting.designer.cs">
+      <DependentUpon>202006261354244_DateFormatting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Application.cs" />
     <Compile Include="Models\Company.cs" />
@@ -150,6 +169,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -222,6 +242,17 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202006252213376_InitialCreate.resx">
+      <DependentUpon>202006252213376_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006252322576_InitialCreate1.resx">
+      <DependentUpon>202006252322576_InitialCreate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006261354244_DateFormatting.resx">
+      <DependentUpon>202006261354244_DateFormatting.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

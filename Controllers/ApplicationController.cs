@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -16,10 +15,40 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Application
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
             var applications = db.Applications.Include(a => a.Job);
-            return View(applications.ToList());
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    applications = applications.OrderByDescending(a => a.ID);
+                    break;
+                case "Company":
+                    applications = applications.OrderBy(a => a.Job.Company.Name);
+                    break;
+                case "company_desc":
+                    applications = applications.OrderByDescending(a => a.Job.Company.Name);
+                    break;
+                case "Date":
+                    applications = applications.OrderBy(a => a.Date);
+                    break;
+                case "date_desc":
+                    applications = applications.OrderByDescending(a => a.Date);
+                    break;
+                default:
+                    applications = applications.OrderBy(a => a.ID);
+                    break;
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(applications.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Application/Details/5
@@ -40,7 +69,7 @@ namespace WorkNotes.Controllers
         // GET: Application/Create
         public ActionResult Create()
         {
-            ViewBag.JobID = new SelectList(db.Jobs, "ID", "JobTitle");
+            ViewBag.JobID = new SelectList(db.Jobs, "ID", "ID");
             return View();
         }
 

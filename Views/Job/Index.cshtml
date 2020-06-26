@@ -1,7 +1,8 @@
-﻿@model IEnumerable<WorkNotes.Models.Job>
-
+﻿@model PagedList.IPagedList<WorkNotes.Models.Job>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Jobs";
 }
 
 <h2>Jobs</h2>
@@ -12,40 +13,52 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.JobTitle)
+            @Html.ActionLink("ID", "Index", new { sortOrder = ViewBag.IDSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Company.Name)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().JobTitle)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostingDate)
+            @Html.ActionLink("Company", "Index", new { sortOrder = ViewBag.CompanySortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostingSite)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PostingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PostingSite)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.JobTitle)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostingDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PostingSite)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostingSite)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort }))

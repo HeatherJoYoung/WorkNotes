@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -16,11 +15,34 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Company
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
-            var companies = db.Companies.ToList();
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.LocationSortParam = sortOrder == "Location" ? "location_desc" : "Location";
+
+            var companies = from c in db.Companies
+                            select c;
             
-            return View(companies);
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    companies = companies.OrderByDescending(c => c.Name);
+                    break;
+                case "Location":
+                    companies = companies.OrderBy(c => c.Location);
+                    break;
+                case "location_desc":
+                    companies = companies.OrderByDescending(c => c.Location);
+                    break;
+                default:
+                    companies = companies.OrderBy(c => c.Name);
+                    break;
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(companies.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Company/Details/5
@@ -49,7 +71,7 @@ namespace WorkNotes.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name")] Company company)
+        public ActionResult Create([Bind(Include = "ID,Name,Location")] Company company)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +103,7 @@ namespace WorkNotes.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name")] Company company)
+        public ActionResult Edit([Bind(Include = "ID,Name,Location")] Company company)
         {
             if (ModelState.IsValid)
             {

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -16,10 +15,33 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Job
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
             var jobs = db.Jobs.Include(j => j.Company);
-            return View(jobs.ToList());
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    jobs = jobs.OrderByDescending(c => c.ID);
+                    break;
+                case "Company":
+                    jobs = jobs.OrderBy(c => c.Company.Name);
+                    break;
+                case "company_desc":
+                    jobs = jobs.OrderByDescending(c => c.Company.Name);
+                    break;
+                default:
+                    jobs = jobs.OrderBy(c => c.ID);
+                    break;
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(jobs.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Job/Details/5

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -16,10 +15,40 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Person
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, int? page)
         {
             var persons = db.Persons.Include(p => p.Company);
-            return View(persons.ToList());
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.FirstNameSortParam = String.IsNullOrEmpty(sortOrder) ? "firstname_desc" : "";
+            ViewBag.LastNameSortParam = sortOrder == "LastName" ? "lastname_desc" : "LastName";
+            ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
+
+            switch (sortOrder)
+            {
+                case "firstname_desc":
+                    persons = persons.OrderByDescending(p => p.FirstName);
+                    break;
+                case "LastName":
+                    persons = persons.OrderBy(p => p.LastName);
+                    break;
+                case "lastname_desc":
+                    persons = persons.OrderByDescending(p => p.LastName);
+                    break;
+                case "Company":
+                    persons = persons.OrderBy(p => p.Company.Name);
+                    break;
+                case "company_desc":
+                    persons = persons.OrderByDescending(p => p.Company.Name);
+                    break;
+                default:
+                    persons = persons.OrderBy(p => p.FirstName);
+                    break;
+            }
+
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(persons.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Person/Details/5
