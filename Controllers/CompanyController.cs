@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -16,8 +15,9 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Company
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.LocationSortParam = sortOrder == "Location" ? "location_desc" : "Location";
 
@@ -40,7 +40,9 @@ namespace WorkNotes.Controllers
                     break;
             }
 
-            return View(companies.ToList());
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(companies.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Company/Details/5

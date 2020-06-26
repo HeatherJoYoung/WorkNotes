@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -13,7 +14,7 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Activity
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, int? page)
         {
             var activities = db.Activities
                 .Include(a => a.Application)
@@ -21,6 +22,7 @@ namespace WorkNotes.Controllers
                 .Include(a => a.Job)
                 .Include(a => a.Job.Company);
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
             ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
@@ -54,7 +56,9 @@ namespace WorkNotes.Controllers
                     break;
             }
 
-            return View(activities.ToList());
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(activities.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Activity/Details/5

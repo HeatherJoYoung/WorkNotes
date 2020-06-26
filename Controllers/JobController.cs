@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using PagedList;
 using WorkNotes.DAL;
 using WorkNotes.Models;
 
@@ -14,10 +15,11 @@ namespace WorkNotes.Controllers
         private NotesContext db = new NotesContext();
 
         // GET: Job
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, int? page)
         {
             var jobs = db.Jobs.Include(j => j.Company);
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
 
@@ -37,7 +39,9 @@ namespace WorkNotes.Controllers
                     break;
             }
 
-            return View(jobs.ToList());
+            int pageSize = 20;
+            int pageNumber = (page ?? 1);
+            return View(jobs.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Job/Details/5
