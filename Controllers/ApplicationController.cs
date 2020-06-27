@@ -20,14 +20,14 @@ namespace WorkNotes.Controllers
             var applications = db.Applications.Include(a => a.Job);
 
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "ID" : "";
             ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
             ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
 
             switch (sortOrder)
             {
-                case "id_desc":
-                    applications = applications.OrderByDescending(a => a.ID);
+                case "ID":
+                    applications = applications.OrderBy(a => a.ID);
                     break;
                 case "Company":
                     applications = applications.OrderBy(a => a.Job.Company.Name);
@@ -42,7 +42,7 @@ namespace WorkNotes.Controllers
                     applications = applications.OrderByDescending(a => a.Date);
                     break;
                 default:
-                    applications = applications.OrderBy(a => a.ID);
+                    applications = applications.OrderByDescending(a => a.ID);
                     break;
             }
 
