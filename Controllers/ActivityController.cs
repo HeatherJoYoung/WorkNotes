@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using PagedList;
 using WorkNotes.DAL;
@@ -23,15 +25,15 @@ namespace WorkNotes.Controllers
                 .Include(a => a.Job.Company);
 
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.IDSortParam = String.IsNullOrEmpty(sortOrder) ? "ID" : "";
             ViewBag.DateSortParam = sortOrder == "Date" ? "date_desc" : "Date";
             ViewBag.TypeSortParam = sortOrder == "Type" ? "type_desc" : "Type";
             ViewBag.CompanySortParam = sortOrder == "Company" ? "company_desc" : "Company";
 
             switch (sortOrder)
             {
-                case "id_desc":
-                    activities = activities.OrderByDescending(a => a.ID);
+                case "ID":
+                    activities = activities.OrderBy(a => a.ID);
                     break;
                 case "Date":
                     activities = activities.OrderBy(a => a.Date);
@@ -52,13 +54,52 @@ namespace WorkNotes.Controllers
                     activities = activities.OrderByDescending(a => a.Job.Company.Name);
                     break;
                 default:
-                    activities = activities.OrderBy(a => a.ID);
+                    activities = activities.OrderByDescending(a => a.ID);
                     break;
             }
 
             int pageSize = 20;
             int pageNumber = (page ?? 1);
             return View(activities.ToPagedList(pageNumber, pageSize));
+        }
+
+        [HttpPost]
+        public FileResult Export()
+        {
+            var activities = db.Activities
+                .Include(a => a.Contact.FullName)
+                .Include(a => a.Job.JobTitle)
+                .Include(a => a.Job.Company); 
+
+            List<List<string>> rows = (from a in activities
+                                 select new List<string>
+                                 {
+                                     a.Date.ToString(),
+                                     a.Type.ToString(),
+                                     a.Contact.LastName,
+                                     a.Job.JobTitle,
+                                     a.Job.Company.Name,
+                                     a.Notes
+                                 }).ToList<List<string>>();
+
+            //Insert the Column Names.
+            rows.Insert(0, new List<string> { "Date", "Type", "Contact", "Job Title", "Company", "Notes" });
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                List<string> row = rows[i];
+                for (int j = 0; j < row.Count; j++)
+                {
+                    //Append data with separator.
+                    sb.Append(row[j] + ',');
+                }
+
+                //Append new line character.
+                sb.Append("\r\n");
+            }
+
+            return File(Encoding.UTF8.GetBytes(sb.ToString()), "text/csv", "Grid.csv");
         }
 
         // GET: Activity/Details/5
